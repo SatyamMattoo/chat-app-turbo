@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String?
+  email     String   @unique
+  username  String   @unique
+  image     String?
+  password  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  sentMessages     Message[]    @relation("SentMessages")
+  receivedMessages Message[]    @relation("ReceivedMessages")
+  addedUsers       Friendship[] @relation("AddedUsers")
+  friends          Friendship[] @relation("Friends")
+  groups           GroupUser[]
+  createdGroups    Group[]   
+  callsAsCaller    Call[]       @relation("CallsAsCaller")
+  callsAsCallee    Call[]       @relation("CallsAsCallee")
+
+  @@index([username])
+}
+
+// Group model
+model Group {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Creator relationship
+  creator   User     @relation(fields: [creatorId], references: [id])
+  creatorId String   @db.Uuid
+
+  // Relationships
+  users     GroupUser[]
+  messages  Message[]
+
+  @@unique([name, creatorId]) // A user can't create multiple groups with the same name
+}
+
+// Pivot table for the many-to-many relationship between users and groups
+model GroupUser {
+  id        String   @id @default(uuid()) @db.Uuid
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.Uuid
+  group     Group    @relation(fields: [groupId], references: [id])
+  groupId   String   @db.Uuid
+  joinedAt  DateTime @default(now())
+
+  @@unique([userId, groupId])
+}
+
+// Message model
+model Message {
+  id        String   @id @default(uuid()) @db.Uuid
+  content   String?
+  messageType MessageType @default(TEXT)  // TEXT, IMAGE, FILE, CALL
+  createdAt DateTime @default(now())
+
+  // Relationships
+  sender   User   @relation("SentMessages", fields: [senderId], references: [id])
+  senderId String @db.Uuid
+
+  receiver User?  @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId String? @db.Uuid
+
+  group    Group? @relation(fields: [groupId], references: [id])
+  groupId  String? @db.Uuid
+
+  @@index([senderId, receiverId])
+}
+
+// Call model for one-on-one video calls
+model Call {
+  id        String   @id @default(uuid()) @db.Uuid
+  startedAt DateTime @default(now())
+  endedAt   DateTime?
+  
+  // Relationships
+  caller   User   @relation("CallsAsCaller", fields: [callerId], references: [id])
+  callerId String @db.Uuid
+  callee   User   @relation("CallsAsCallee", fields: [calleeId], references: [id])
+  calleeId String @db.Uuid
+
+  @@index([callerId, calleeId])
+}
+
+model Friendship {
+  id        String   @id @default(uuid()) @db.Uuid
+  user      User     @relation("AddedUsers", fields: [userId], references: [id])
+  userId    String   @db.Uuid
+  friend    User     @relation("Friends", fields: [friendId], references: [id])
+  friendId  String   @db.Uuid
+  isMutual  Boolean  @default(false)
+
+  @@unique([userId, friendId])
+}
+
+// Enum for message type
+enum MessageType {
+  TEXT
+  IMAGE
+  FILE
+  CALL
+}
+
