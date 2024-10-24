@@ -62,7 +62,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       let username;
-  
+
       if (account?.provider === "google") {
         if (user.email) {
           username = user.email.split("@")[0];
@@ -72,8 +72,8 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
           username = user.name;
         }
       }
-  
-      if(!user.email) {
+
+      if (!user.email) {
         console.error("Email not found in sign-in data.");
         return false;
       }
@@ -82,14 +82,14 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
         console.error("Username could not be created from sign-in data.");
         return false;
       }
-  
+
       // Check if the user already exists in the database
       const existingUser = await client.user.findUnique({
         where: {
           email: user.email,
         },
       });
-  
+
       // If the user does not exist, create a new user
       if (!existingUser) {
         await client.user.create({
@@ -97,7 +97,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
             name: user.name || username,
             email: user.email,
             image: user.image || null,
-            username: username
+            username: username,
           },
         });
       }

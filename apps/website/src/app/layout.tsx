@@ -1,4 +1,6 @@
 import "@repo/ui/globals.css";
+import { Toaster } from "@repo/ui/components/ui/toaster";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Navbar } from "~/src/components/Navbar";
@@ -20,6 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         {children}
+        <Toaster />
       </body>
     </html>
   );
