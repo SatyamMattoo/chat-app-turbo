@@ -1,5 +1,5 @@
 import { Register } from "./Register";
 
-export default function SignUp() {
+export default async function SignUp() {
   return <Register />;
 }

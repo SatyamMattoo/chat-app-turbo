@@ -73,35 +73,41 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
         }
       }
 
-      if (!user.email) {
-        console.error("Email not found in sign-in data.");
-        return false;
-      }
-      // Check if username was successfully created
-      if (!username) {
-        console.error("Username could not be created from sign-in data.");
-        return false;
-      }
+      if (account?.provider !== "credentials") {
+        if (!user.email) {
+          console.error("Email not found in sign-in data.");
+          return false;
+        }
+        // Check if username was successfully created
+        if (!username) {
+          console.error("Username could not be created from sign-in data.");
+          return false;
+        }
 
-      // Check if the user already exists in the database
-      const existingUser = await client.user.findUnique({
-        where: {
-          email: user.email,
-        },
-      });
-
-      // If the user does not exist, create a new user
-      if (!existingUser) {
-        await client.user.create({
-          data: {
-            name: user.name || username,
+        // Check if the user already exists in the database
+        const existingUser = await client.user.findUnique({
+          where: {
             email: user.email,
-            image: user.image || null,
-            username: username,
           },
         });
+
+        // If the user does not exist, create a new user
+        if (!existingUser) {
+          await client.user.create({
+            data: {
+              name: user.name || username,
+              email: user.email,
+              image: user.image || null,
+              username: username,
+            },
+          });
+        }
       }
-      return true; // Return true to allow sign-in
+      return true;
     },
+  },
+  pages: {
+    error: "/error",
+    signIn: "/auth/login",
   },
 });
