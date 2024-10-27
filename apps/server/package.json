@@ -1,19 +1,21 @@
 {
-    "name": "@repo/server",
+    "name": "server",
     "version": "1.0.0",
     "private": true,
     "license": "MIT",
+    "type": "module",
     "scripts": {
-        "dev": "tsc-watch --onSuccess \"node dist/index.js\"",
+        "dev": "tsx watch --include \"./\" src/index.ts",
         "build": "tsc -p .",
         "start": "node dist/index.js",
         "type-check": "tsc --noEmit"
     },
     "dependencies": {
+        "@repo/database": "workspace:*",
         "socket.io": "^4.8.0"
     },
     "devDependencies": {
-        "tsc-watch": "^6.2.0",
+        "tsx": "^4.19.2",
         "typescript": "^5.6.3"
     }
 }

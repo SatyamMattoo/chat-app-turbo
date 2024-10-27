@@ -1,24 +1,26 @@
 import { createServer } from "http";
-import SocketServer from "./services/socket";
+import SocketServer from "./services/socket.js";
 
 const main = async () => {
   try {
     const PORT = process.env.PORT || 8000;
 
+    // Create an HTTP server
     const server = createServer();
 
+    // Initialize SocketServer and attach it to the HTTP server
     const socket = new SocketServer();
-    socket.getSocket().attach(server);
+    socket.attach(server);
 
-    server.listen(8000, () => {
-      console.log(`Listening on port ${PORT}`);
-    });
-
-    socket.getSocket().on("connection", (socket) => {
-      console.log(`Socket.IO client connected: ${socket.id}`);
+    // Start the HTTP server
+    server.listen(PORT, () => {
+      console.log(`Listening on port ${PORT}...`);
+      
+      // Initialize socket listeners after the server is running
+      socket.initListeners();
     });
   } catch (error) {
-    console.log(error);
+    console.log("Error starting server:", error);
   }
 };
 

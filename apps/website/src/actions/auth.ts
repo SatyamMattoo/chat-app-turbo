@@ -61,7 +61,7 @@ export const login = async ({
       password,
       redirect: false,
     });
-    
+
     return response;
   } catch (error: any) {
     if (error instanceof AuthError) {
