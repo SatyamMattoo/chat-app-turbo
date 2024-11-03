@@ -1,7 +1,9 @@
 import { Server, Socket } from "socket.io";
-import { intializeMessageListeners } from "../hanlders/message.js";
-import { groupHandler } from "../hanlders/group.js";
-import { callHandler } from "../hanlders/call.js";
+
+import { callHandler } from "../controllers/call.js";
+import { groupHandler } from "../controllers/group.js";
+import { socketMiddleware } from "../middleware/auth.js";
+import { intializeMessageListeners } from "../controllers/message.js";
 
 class SocketServer {
   private _io: Server;
@@ -21,6 +23,8 @@ class SocketServer {
 
   public initListeners() {
     const io = this.io;
+
+    io.use(socketMiddleware)
     console.log("Socket listeners intialized...");
     io.on("connection", (socket: Socket) => {
       console.log(`New Socket Connected`, socket.id);
