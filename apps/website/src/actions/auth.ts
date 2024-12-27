@@ -1,7 +1,7 @@
 "use server";
 import { hash } from "bcryptjs";
 import { client } from "../utils/prisma";
-import { signIn } from "../auth";
+import { signIn, signOut } from "../auth";
 import { AuthError } from "next-auth";
 
 // Define a server action for registering the user
@@ -85,5 +85,13 @@ export const login = async ({
       }
     }
     throw error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    await signOut();
+  } catch (err) {
+    console.log(err);
   }
 };

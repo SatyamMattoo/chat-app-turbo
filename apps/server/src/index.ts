@@ -1,22 +1,31 @@
+import cors from "cors";
 import express from "express";
 import { createServer } from "http";
 import cookieParser from "cookie-parser";
 
 import SocketServer from "./services/socket.js";
 import friendsRouter from "./routes/friends.js";
+import messagesRouter from "./routes/message.js";
 import { error } from "./middleware/errorHandler.js";
 
 const main = async () => {
   try {
     const PORT = process.env.PORT || 8000;
-
     const app = express();
+
+    app.use(
+      cors({
+        origin: "http://localhost:3001",
+        credentials: true,
+      }),
+    );
     app.use(express.json());
 
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
 
     app.use("/api/v1/friends", friendsRouter);
+    app.use("/api/v1/messages", messagesRouter);
     // Create an HTTP server
     const server = createServer(app);
 

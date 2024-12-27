@@ -1,9 +1,10 @@
 import NextAuth from "next-auth";
+import { compare } from "bcryptjs";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+
 import { client } from "./utils/prisma";
-import { compare } from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth }: any = NextAuth({
   providers: [
@@ -54,12 +55,27 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
           id: user.id,
           name: user.name,
           email: user.email,
-          image: user.image,
+          username: user.username,
         };
       },
     }),
   ],
   callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token?.id) {
+        //@ts-ignore
+        session.user.id = token.id; // Add user ID to the session
+      }
+      return session;
+    },
     async signIn({ user, account }) {
       let username;
 
@@ -68,8 +84,8 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
           username = user.email.split("@")[0];
         }
       } else if (account?.provider === "github") {
-        if (user.name) {
-          username = user.name;
+        if (user.email) {
+          username = user.email.split("@")[0];
         }
       }
 
@@ -93,7 +109,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
 
         // If the user does not exist, create a new user
         if (!existingUser) {
-          await client.user.create({
+          const newUser = await client.user.create({
             data: {
               name: user.name || username,
               email: user.email,
@@ -101,6 +117,9 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
               username: username,
             },
           });
+          user.id = newUser.id; // Add the `id` from the created user
+        } else {
+          user.id = existingUser.id; // Use the `id` from the existing user
         }
       }
       return true;

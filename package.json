@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
+    "dev": "dotenv -- turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "ui": "pnpm --filter @repo/ui ui"
@@ -23,5 +23,8 @@
   "volta": {
     "node": "20.17.0",
     "pnpm": "9.12.0"
+  },
+  "dependencies": {
+    "dotenv-cli": "^8.0.0"
   }
 }

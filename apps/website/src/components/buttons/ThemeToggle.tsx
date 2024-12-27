@@ -1,8 +1,9 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
+
 import { Label } from "@repo/ui/components/ui/label";
 import { Switch } from "@repo/ui/components/ui/switch";
-import React, { useState, useEffect } from "react";
 
 const ThemeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState<boolean | null>(null);

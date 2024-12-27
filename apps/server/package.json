@@ -13,13 +13,16 @@
     "dependencies": {
         "@auth/core": "^0.37.2",
         "@repo/database": "workspace:*",
+        "@types/cors": "^2.8.17",
         "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
         "express": "^4.21.1",
         "socket.io": "^4.8.0"
     },
     "devDependencies": {
         "@types/cookie-parser": "^1.4.7",
         "@types/express": "^5.0.0",
+        "@types/node": "^22.10.2",
         "tsx": "^4.19.2",
         "typescript": "^5.6.3"
     }

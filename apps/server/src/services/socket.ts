@@ -3,7 +3,7 @@ import { Server, Socket } from "socket.io";
 import { callHandler } from "../controllers/call.js";
 import { groupHandler } from "../controllers/group.js";
 import { socketMiddleware } from "../middleware/auth.js";
-import { intializeMessageListeners } from "../controllers/message.js";
+import { initializeMessageListeners } from "../controllers/message.js";
 
 class SocketServer {
   private _io: Server;
@@ -11,10 +11,12 @@ class SocketServer {
   constructor() {
     this._io = new Server({
       cors: {
-        origin: "*",
+        origin: "http://localhost:3001", // Update with your client origin
+        credentials: true,
       },
+      transports: ["websocket"],
     });
-    console.log("Socket server intialized...");
+    console.log("Socket server initialized...");
   }
 
   attach(server: any) {
@@ -24,15 +26,25 @@ class SocketServer {
   public initListeners() {
     const io = this.io;
 
-    io.use(socketMiddleware)
-    console.log("Socket listeners intialized...");
+    io.use(socketMiddleware); // Authenticate and attach user data
+    console.log("Socket listeners initialized...");
+
     io.on("connection", (socket: Socket) => {
-      console.log(`New Socket Connected`, socket.id);
+      const userId = socket.data.user.id;
+      console.log(`User ${userId} connected with socket ID: ${socket.id}`);
+
+      // Add user to their own room for multi-device support
+      socket.join(userId);
 
       // Initialize individual event handlers
-      intializeMessageListeners(socket);
+      initializeMessageListeners(socket);
       groupHandler(socket);
       callHandler(socket);
+
+      // Handle socket disconnection
+      socket.on("disconnect", () => {
+        console.log(`Socket ${socket.id} disconnected for user ${userId}`);
+      });
     });
   }
 
