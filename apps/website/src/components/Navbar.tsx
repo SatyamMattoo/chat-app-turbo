@@ -4,13 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 
-import { toast } from "@repo/ui/hooks/use-toast";
-import { Button } from "@repo/ui/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuList,
 } from "@repo/ui/components/ui/navigation-menu";
+import { toast } from "@repo/ui/hooks/use-toast";
+import { Button } from "@repo/ui/components/ui/button";
 
 import logo from "../assets/logo.png";
 import ThemeToggle from "./buttons/ThemeToggle";

@@ -31,7 +31,7 @@ class SocketServer {
 
     io.on("connection", (socket: Socket) => {
       const userId = socket.data.user.id;
-      console.log(`User ${userId} connected with socket ID: ${socket.id}`);
+      console.log(`User ${socket.data.user.name} connected with socket ID: ${socket.id}`);
 
       // Add user to their own room for multi-device support
       socket.join(userId);

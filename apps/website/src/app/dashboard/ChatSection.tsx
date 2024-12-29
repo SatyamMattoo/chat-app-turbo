@@ -89,8 +89,6 @@ const ChatSection: React.FC<Props> = ({ activeChat, userId }) => {
 
     console.log("Sending message:", message);
     socket.emit("event:message", message);
-
-    // Update the message array with a temporary message object
     setMessages((prev) => [
       ...prev,
       {
@@ -115,7 +113,7 @@ const ChatSection: React.FC<Props> = ({ activeChat, userId }) => {
             <div className="flex items-center gap-3">
               {" "}
               <Avatar>
-                <AvatarImage src={activeChat.image} alt="Profile Image"/>
+                <AvatarImage src={activeChat.image} alt="Profile Image" />
                 <AvatarFallback>{activeChat.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <h2 className="text-lg font-semibold">{activeChat.name}</h2>
@@ -127,12 +125,12 @@ const ChatSection: React.FC<Props> = ({ activeChat, userId }) => {
           </div>
           <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
             {messages.map((message, index) => (
-              <div className="mb-4" key={message.id || index}>
+              <div className="w-full mb-1 flex" key={message.id || index}>
                 <span
                   className={`p-2 rounded-md text-white ${
                     message.senderId === userId
-                      ? "bg-primary/80 ml-auto"
-                      : "bg-gray-400 mr-auto"
+                      ? "bg-gray-400 ml-auto"
+                      : "bg-primary/80 mr-auto"
                   }`}
                 >
                   {message.content}
@@ -147,6 +145,12 @@ const ChatSection: React.FC<Props> = ({ activeChat, userId }) => {
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault(); // Prevents the default form submission or newline behavior
+                    handleSendMessage(); // Trigger the send message function
+                  }
+                }}
                 className="flex-1 p-2 border-none focus:outline-none focus:ring-0"
                 placeholder="Type a message..."
               />
