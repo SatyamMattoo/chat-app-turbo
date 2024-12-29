@@ -25,11 +25,11 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "14.2.8",
+    "@prisma/nextjs-monorepo-workaround-plugin": "^6.1.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/bcryptjs": "^2.4.6",
     "@types/eslint": "catalog:",
-    "@types/node": "catalog:",
     "@types/react": "catalog:react18",
     "@types/react-dom": "catalog:react18",
     "autoprefixer": "^10",

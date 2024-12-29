@@ -147,6 +147,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: 14.2.8
         version: 14.2.8
+      '@prisma/nextjs-monorepo-workaround-plugin':
+        specifier: ^6.1.0
+        version: 6.1.0
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
@@ -159,9 +162,6 @@ importers:
       '@types/eslint':
         specifier: 'catalog:'
         version: 8.56.2
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.11.6
       '@types/react':
         specifier: catalog:react18
         version: 18.3.11
@@ -776,6 +776,9 @@ packages:
 
   '@prisma/get-platform@5.21.1':
     resolution: {integrity: sha512-sRxjL3Igst3ct+e8ya/x//cDXmpLbZQ5vfps2N4tWl4VGKQAmym77C/IG/psSMsQKszc8uFC/q1dgmKFLUgXZQ==}
+
+  '@prisma/nextjs-monorepo-workaround-plugin@6.1.0':
+    resolution: {integrity: sha512-hB+yI820xSAFFVljV7CzhJaT7FJNZagGIMUjFFTcyJAjA1Qb0VQ6Y598j6g8GBKwyPiasN1ehDYDIfTJI9kA/A==}
 
   '@radix-ui/number@1.1.0':
     resolution: {integrity: sha512-V3gRzhVNU1ldS5XhAPTom1fOIo4ccrjjJgmE+LI2h/WaFpHmx0MQApT+KZHnx8abG6Avtfcz4WoEciMnpFT3HQ==}
@@ -4070,6 +4073,8 @@ snapshots:
   '@prisma/get-platform@5.21.1':
     dependencies:
       '@prisma/debug': 5.21.1
+
+  '@prisma/nextjs-monorepo-workaround-plugin@6.1.0': {}
 
   '@radix-ui/number@1.1.0': {}
 
