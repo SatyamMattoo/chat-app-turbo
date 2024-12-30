@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { MessageResponse } from "../types/types";
 
-const baseURL = `http://localhost:8000/api/v1`;
+const baseURL = `${process.env.BACKEND_URL}/api/v1`;
 
 export const friendsAPI = {
   async fetchFriends(userId: string) {

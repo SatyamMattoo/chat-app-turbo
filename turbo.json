@@ -52,7 +52,8 @@
         "GITHUB_SECRET",
         "AUTH_SECRET",
         "FRONTEND_URL",
-        "PORT"
+        "PORT",
+        "BACKEND_URL"
       ]
     }
   },
