@@ -15,6 +15,7 @@ export const authMiddleware = async (
       : "authjs.session-token";
   const token = req.cookies[cookieName];
   console.log(cookieName, " : ", token);
+  console.log("auth middleware :", req.cookies);
   if (!token) {
     return next(new ErrorHandler("Please login to access this resource!", 401));
   }
@@ -49,6 +50,7 @@ export const socketMiddleware = async (
       : "authjs.session-token";
 
   const cookies = socket.handshake.headers.cookie;
+  console.log(socket.handshake.headers);
   const token = cookies
     ?.split(";")
     .find((cookie) => cookie.trim().startsWith(`${cookieName}=`))
