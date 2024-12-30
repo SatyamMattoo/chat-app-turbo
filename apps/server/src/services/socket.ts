@@ -11,7 +11,7 @@ class SocketServer {
   constructor() {
     this._io = new Server({
       cors: {
-        origin: "http://localhost:3001", // Update with your client origin
+        origin: process.env.FRONTEND_URL, // Update with your client origin
         credentials: true,
       },
       transports: ["websocket"],
@@ -31,7 +31,9 @@ class SocketServer {
 
     io.on("connection", (socket: Socket) => {
       const userId = socket.data.user.id;
-      console.log(`User ${socket.data.user.name} connected with socket ID: ${socket.id}`);
+      console.log(
+        `User ${socket.data.user.name} connected with socket ID: ${socket.id}`,
+      );
 
       // Add user to their own room for multi-device support
       socket.join(userId);
