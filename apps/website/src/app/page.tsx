@@ -6,7 +6,6 @@ import { AuroraBackground } from "@repo/ui/components/ui/auora";
 import { TypewriterEffectSmooth } from "@repo/ui/components/ui/typewriter";
 import { BackgroundBeamsWithCollision } from "@repo/ui/components/ui/background";
 
-import { auth } from "../auth";
 import logo from "../assets/logo.png";
 import { Navbar } from "../components/Navbar";
 import banner from "../assets/side-banner.png";
@@ -31,9 +30,6 @@ const words = [
 ];
 
 export default async function Page() {
-  const session = await auth();
-  console.log(session);
-
   return (
     <div>
       <Navbar />

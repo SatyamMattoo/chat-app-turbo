@@ -1,7 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "envMode": "loose",
   "tasks": {
     "db:generate": {
       "cache": false
@@ -53,7 +52,7 @@
         "AUTH_SECRET",
         "FRONTEND_URL",
         "PORT",
-        "BACKEND_URL"
+        "NEXT_PUBLIC_BACKEND_URL"
       ]
     }
   },

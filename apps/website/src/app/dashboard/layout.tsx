@@ -9,7 +9,6 @@ async function AuthLayout({
   children: React.ReactNode;
 }): Promise<JSX.Element> {
   const session = await auth();
-  console.log(session);
   if (session == null) {
     redirect("/");
   }

@@ -64,7 +64,6 @@ const ChatSection: React.FC<Props> = ({ activeChat, userId }) => {
       console.log("Socket connected", socket.id);
     });
     socket.on("event:message_received", (message: Message) => {
-      console.log("Message received:", message);
       setMessages((prev) => [
         ...prev,
         { ...message, messageType: message.messageType as MessageType },
@@ -87,7 +86,6 @@ const ChatSection: React.FC<Props> = ({ activeChat, userId }) => {
       receiverId: activeChat.id,
     };
 
-    console.log("Sending message:", message);
     socket.emit("event:message", message);
     setMessages((prev) => [
       ...prev,

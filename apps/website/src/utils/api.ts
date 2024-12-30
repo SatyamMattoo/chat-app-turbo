@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { MessageResponse } from "../types/types";
 
-const baseURL = `${process.env.BACKEND_URL}/api/v1`;
+const baseURL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1`;
 
 export const friendsAPI = {
   async fetchFriends(userId: string) {
@@ -44,7 +44,6 @@ export const friendsAPI = {
         { friendUsername: username },
         { withCredentials: true },
       );
-      console.log(response);
       return response.data;
     } catch (error: any) {
       console.error(
