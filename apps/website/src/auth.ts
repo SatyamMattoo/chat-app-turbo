@@ -72,7 +72,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
     async session({ session, token }) {
       if (token?.id) {
         //@ts-ignore
-        session.user.id = token.id; // Add user ID to the session
+        session.user = token; // Add user ID to the session
       }
       return session;
     },
@@ -123,6 +123,35 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
         }
       }
       return true;
+    },
+  },
+  cookies: {
+    sessionToken: {
+      name: `authjs.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
+        secure: process.env.ENVIRONMENT === "production",
+        path: "/",
+      },
+    },
+    callbackUrl: {
+      name: `authjs.callback-url`,
+      options: {
+        httpOnly: true,
+        secure: process.env.ENVIRONMENT === "production",
+        sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
+        path: "/",
+      },
+    },
+    csrfToken: {
+      name: `authjs.csrf-token`,
+      options: {
+        httpOnly: false, // CSRF token must be accessible to JavaScript
+        sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
+        secure: process.env.ENVIRONMENT === "production",
+        path: "/",
+      },
     },
   },
   pages: {
