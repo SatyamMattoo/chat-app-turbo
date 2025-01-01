@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import FriendsList from "./FriendsList";
 import ChatSection from "./ChatSection";
 import { ChatUser } from "~/src/types/types";
-import { friendsAPI } from "~/src/utils/api";
+import { fetchFriends } from "~/src/actions/friends";
 
 const DashboardPage = () => {
   const { data: session } = useSession();
@@ -16,10 +16,10 @@ const DashboardPage = () => {
   useEffect(() => {
     if (!session?.user?.id) return;
 
-    const fetchFriends = async () => {
+    const fetchFriend = async () => {
       setLoading(true);
       try {
-        const { data } = await friendsAPI.fetchFriends(session.user?.id!);
+        const { data } = await fetchFriends(session.user?.id!);
         setFriends(data);
       } catch (error) {
         console.error("Failed to fetch friends:", error);
@@ -28,7 +28,7 @@ const DashboardPage = () => {
       }
     };
 
-    fetchFriends();
+    fetchFriend();
   }, [session?.user?.id]);
 
 

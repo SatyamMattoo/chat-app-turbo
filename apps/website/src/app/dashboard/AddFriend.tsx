@@ -13,15 +13,15 @@ import {
 import { toast } from "@repo/ui/hooks/use-toast";
 import { Input } from "@repo/ui/components/ui/input";
 import { Button } from "@repo/ui/components/ui/button";
+import { addFriend } from "~/src/actions/friends";
 
-import { friendsAPI } from "../../utils/api";
 
 const AddFriend = () => {
   const [username, setUsername] = useState<string>("");
 
   const handleAddFriend = async () => {
     try {
-      const response = await friendsAPI.addFriend(username);
+      const response = await addFriend(username);
       if (response.data.success === true) {
         toast({
           title: "Success",

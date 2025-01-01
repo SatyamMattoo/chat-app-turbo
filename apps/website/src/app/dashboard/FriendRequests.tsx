@@ -17,9 +17,8 @@ import {
   AvatarImage,
 } from "@repo/ui/components/ui/avatar";
 import { Button } from "@repo/ui/components/ui/button";
-
-import { friendsAPI } from "~/src/utils/api";
 import { ImCross, ImCheckmark } from "react-icons/im";
+import { acceptFriendRequest, fetchFriendRequests, rejectFriendRequest } from "~/src/actions/friends";
 
 type FriendRequest = {
   id: string;
@@ -38,10 +37,10 @@ const FriendRequests = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchFriendRequests = async () => {
+    const fetchRequests = async () => {
       setLoading(true);
       try {
-        const { data } = await friendsAPI.fetchFriendRequests(
+        const { data } = await fetchFriendRequests(
           session?.user?.id!,
         );
         setFriendRequests(data);
@@ -56,12 +55,12 @@ const FriendRequests = () => {
       }
     };
 
-    fetchFriendRequests();
+    fetchRequests();
   }, []);
 
   const handleAcceptFriend = async (friendId: string) => {
     try {
-      await friendsAPI.acceptFriendRequest(friendId);
+      await acceptFriendRequest(friendId);
       setFriendRequests((prev) =>
         prev.filter((request) => request.friendId !== friendId),
       );
@@ -77,7 +76,7 @@ const FriendRequests = () => {
 
   const handleRejectFriend = async (friendId: string) => {
     try {
-      await friendsAPI.rejectFriendRequest(friendId);
+      await rejectFriendRequest(friendId);
       setFriendRequests((prev) =>
         prev.filter((request) => request.friendId !== friendId),
       );
