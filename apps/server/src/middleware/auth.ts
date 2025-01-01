@@ -14,7 +14,6 @@ export const authMiddleware = async (
   console.log("Request Cookies:", req.headers.cookie);
   console.log("Parsed Cookies:", req.cookies);
   const token = req.cookies[cookieName];
-  console.log(cookieName, " : ", token);
   if (!token) {
     return next(new ErrorHandler("Please login to access this resource!", 401));
   }
@@ -49,7 +48,6 @@ export const socketMiddleware = async (
     ?.split(";")
     .find((cookie) => cookie.trim().startsWith(`${cookieName}=`))
     ?.split("=")[1];
-  console.log(cookieName, " : ", token);
   if (!token) {
     return next(new ErrorHandler("Please login to access this resource!", 401));
   }

@@ -72,7 +72,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
     async session({ session, token }) {
       if (token?.id) {
         //@ts-ignore
-        session.user = token; // Add user ID to the session
+        session.user = token;
       }
       return session;
     },
@@ -127,7 +127,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
   },
   cookies: {
     sessionToken: {
-      name: `__Secure-next-authjs.session-token`,
+      name: process.env.ENVIRONMENT === "production" ? "__Secure-next-authjs.session-token" : "authjs.session-token",
       options: {
         httpOnly: true,
         sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
@@ -136,7 +136,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
       },
     },
     callbackUrl: {
-      name: `__Secure-next-authjs.callback-url`,
+      name: process.env.ENVIRONMENT === "production" ? "__Secure-next-authjs.callback-url" : "authjs.callback-url",
       options: {
         httpOnly: true,
         secure: process.env.ENVIRONMENT === "production",
@@ -145,9 +145,9 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
       },
     },
     csrfToken: {
-      name: `__Host-next-authjs.csrf-token`,
+      name: process.env.ENVIRONMENT === "production" ? "__Secure-next-authjs.csrf-token" : "authjs.csrf-token",
       options: {
-        httpOnly: true, // CSRF token must be accessible to JavaScript
+        httpOnly: true,
         sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
         secure: process.env.ENVIRONMENT === "production",
         path: "/",

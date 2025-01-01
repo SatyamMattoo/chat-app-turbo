@@ -11,6 +11,8 @@ export const friendsAPI = {
         `${baseURL}/friends/get_friends/${userId}`,
         { withCredentials: true },
       );
+      console.log("Request Headers:", response.config.headers);
+      console.log("Response Headers:", response.headers);
       return response.data;
     } catch (error: any) {
       console.error(
