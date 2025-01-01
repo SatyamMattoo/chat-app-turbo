@@ -1,15 +1,17 @@
 import axios from "axios";
 
 import { MessageResponse } from "../types/types";
+import { getCookie } from "cookies-next/client";
 
 const baseURL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1`;
 
+const cookieName = process.env.ENVIRONMENT === "production" ? "__Secure-next-authjs.session-token" : "authjs.session-token";
 export const friendsAPI = {
   async fetchFriends(userId: string) {
     try {
       const response = await axios.get(
         `${baseURL}/friends/get_friends/${userId}`,
-        { withCredentials: true },
+        { withCredentials: true, headers: { Cookie: getCookie(cookieName) } },
       );
       console.log("Request Headers:", response.config.headers);
       console.log("Response Headers:", response.headers);
@@ -27,7 +29,7 @@ export const friendsAPI = {
     try {
       const response = await axios.get(
         `${baseURL}/friends/friend_requests/${userId}`,
-        { withCredentials: true },
+        { withCredentials: true, headers: { Cookie: getCookie(cookieName) } },
       );
       return response.data;
     } catch (error: any) {
@@ -44,7 +46,7 @@ export const friendsAPI = {
       const response = await axios.post(
         `${baseURL}/friends/add_friend`,
         { friendUsername: username },
-        { withCredentials: true },
+        { withCredentials: true, headers: { Cookie: getCookie(cookieName) } },
       );
       return response.data;
     } catch (error: any) {
@@ -61,7 +63,7 @@ export const friendsAPI = {
       const response = await axios.post(
         `${baseURL}/friends/accept_friend`,
         { friendId },
-        { withCredentials: true },
+        { withCredentials: true, headers: { Cookie: getCookie(cookieName) } },
       );
       return response.data;
     } catch (error: any) {
@@ -78,7 +80,7 @@ export const friendsAPI = {
       const response = await axios.post(
         `${baseURL}/friends/reject_friend`,
         { friendId },
-        { withCredentials: true },
+        { withCredentials: true, headers: { Cookie: getCookie(cookieName) } },
       );
       return response.data;
     } catch (error: any) {
@@ -95,6 +97,7 @@ export const friendsAPI = {
       const response = await axios.delete(`${baseURL}/friends/remove_friend`, {
         data: { friendId },
         withCredentials: true,
+        headers: { Cookie: getCookie(cookieName) },
       });
       return response.data;
     } catch (error: any) {
@@ -115,6 +118,7 @@ export const ChatService = {
     try {
       const response = await axios.get(`${baseURL}/messages/${chatId}`, {
         withCredentials: true,
+        headers: { Cookie: getCookie(cookieName) },
       });
       return response.data;
     } catch (error) {
