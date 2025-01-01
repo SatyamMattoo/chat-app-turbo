@@ -133,19 +133,20 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
         sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
         secure: process.env.ENVIRONMENT === "production",
         path: "/",
+        domain: process.env.ENVIRONMENT === "production" ? ".vercel.app" : undefined,
       },
     },
     callbackUrl: {
       name: process.env.ENVIRONMENT === "production" ? "__Secure-next-authjs.callback-url" : "authjs.callback-url",
       options: {
-        httpOnly: true,
         secure: process.env.ENVIRONMENT === "production",
         sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
         path: "/",
+        domain: process.env.ENVIRONMENT === "production" ? ".vercel.app" : undefined,
       },
     },
     csrfToken: {
-      name: process.env.ENVIRONMENT === "production" ? "__Secure-next-authjs.csrf-token" : "authjs.csrf-token",
+      name: process.env.ENVIRONMENT === "production" ? "__Host-next-auth.csrf-token" : "authjs.csrf-token",
       options: {
         httpOnly: true,
         sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
