@@ -4,14 +4,15 @@ import { decode } from "@auth/core/jwt";
 import ErrorHandler from "./errorHandler.js";
 import { Socket } from "socket.io";
 
-const cookieName = "authjs.session-token";
+const cookieName = process.env.ENVIRONMENT === "production" ? "__Secure-next-authjs.session-token" : "authjs.session-token";
 
 export const authMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  console.log("auth middleware :", req.cookies);
+  console.log("Request Cookies:", req.headers.cookie);
+  console.log("Parsed Cookies:", req.cookies);
   const token = req.cookies[cookieName];
   console.log(cookieName, " : ", token);
   if (!token) {
