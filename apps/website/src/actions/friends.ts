@@ -7,10 +7,7 @@ const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL
   ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1`
   : "";
 
-const cookieName =
-  process.env.ENVIRONMENT === "production"
-    ? "__Secure-next-authjs.session-token"
-    : "authjs.session-token";
+const cookieName = "authjs.session-token";
 
 // Server action to fetch friends
 export async function fetchFriends(userId: string) {
@@ -45,7 +42,7 @@ export async function fetchFriends(userId: string) {
 
 // Server action to fetch friend requests
 export async function fetchFriendRequests(userId: string) {
-const sessionToken = cookies().get(cookieName)?.value;
+  const sessionToken = cookies().get(cookieName)?.value;
 
   if (!sessionToken) {
     throw new Error("Authentication token is missing.");
@@ -211,7 +208,6 @@ export async function removeFriend(friendId: string) {
 
 // Server action to fetch chat messages
 export async function fetchMessages(userId: string, chatId: string) {
-
   const sessionToken = cookies().get(cookieName)?.value;
 
   if (!sessionToken) {
