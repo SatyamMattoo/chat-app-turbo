@@ -11,8 +11,6 @@ export const authMiddleware = async (
   res: Response,
   next: NextFunction,
 ) => {
-  console.log("Request Cookies:", req.headers.cookie);
-  console.log("Parsed Cookies:", req.cookies);
   const token = req.cookies[cookieName];
   if (!token) {
     return next(new ErrorHandler("Please login to access this resource!", 401));
