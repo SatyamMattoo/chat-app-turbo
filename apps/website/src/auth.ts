@@ -127,7 +127,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
   },
   cookies: {
     sessionToken: {
-      name: `authjs.session-token`,
+      name: `__Secure-next-authjs.session-token`,
       options: {
         httpOnly: true,
         sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
@@ -136,7 +136,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
       },
     },
     callbackUrl: {
-      name: `authjs.callback-url`,
+      name: `__Secure-next-authjs.callback-url`,
       options: {
         httpOnly: true,
         secure: process.env.ENVIRONMENT === "production",
@@ -145,9 +145,9 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
       },
     },
     csrfToken: {
-      name: `authjs.csrf-token`,
+      name: `__Host-next-authjs.csrf-token`,
       options: {
-        httpOnly: false, // CSRF token must be accessible to JavaScript
+        httpOnly: true, // CSRF token must be accessible to JavaScript
         sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
         secure: process.env.ENVIRONMENT === "production",
         path: "/",
