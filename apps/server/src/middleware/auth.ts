@@ -4,7 +4,7 @@ import { decode } from "@auth/core/jwt";
 import ErrorHandler from "./errorHandler.js";
 import { Socket } from "socket.io";
 
-const cookieName = process.env.ENVIRONMENT === "production" ? "__Secure-next-authjs.session-token" : "authjs.session-token";
+const cookieName = "authjs.session-token";
 
 export const authMiddleware = async (
   req: Request,
