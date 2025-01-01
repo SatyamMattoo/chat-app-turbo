@@ -11,7 +11,7 @@ export const authMiddleware = async (
   res: Response,
   next: NextFunction,
 ) => {
-  console.log("auth middleware :", req);
+  console.log("auth middleware :", req.cookies);
   const token = req.cookies[cookieName];
   console.log(cookieName, " : ", token);
   if (!token) {
