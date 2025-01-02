@@ -40,12 +40,7 @@ export const socketMiddleware = async (
   socket: Socket,
   next: (err?: Error) => void,
 ) => {
-  const cookies = socket.handshake.headers.cookie;
-  console.log(socket.handshake);
-  const token = cookies
-    ?.split(";")
-    .find((cookie) => cookie.trim().startsWith(`${cookieName}=`))
-    ?.split("=")[1];
+  const token = socket.handshake.auth?.token;
   if (!token) {
     return next(new ErrorHandler("Please login to access this resource!", 401));
   }
