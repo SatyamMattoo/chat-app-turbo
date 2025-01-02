@@ -57,17 +57,11 @@ const ChatSection: React.FC<Props> = ({ activeChat, userId }) => {
   }, [messages]);
 
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Socket connected", socket.id);
-    });
     socket.on("event:message_received", (message: Message) => {
       setMessages((prev) => [
         ...prev,
         { ...message, messageType: message.messageType as MessageType },
       ]);
-    });
-    socket.on("disconnect", () => {
-      console.log("Socket disconnected");
     });
 
     return () => {

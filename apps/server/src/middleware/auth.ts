@@ -31,7 +31,6 @@ export const authMiddleware = async (
 
     next();
   } catch (error: any) {
-    console.log(error);
     return next(new ErrorHandler("Please login to access this resource!", 401));
   }
 };

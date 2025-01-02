@@ -78,10 +78,6 @@ const sendMessage = (socket: Socket) => {
         createdAt: message.createdAt,
       });
 
-      console.log(
-        `Message sent from ${senderUsername} to ${receiver.name}:`,
-        content,
-      );
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -92,7 +88,6 @@ const sendMessage = (socket: Socket) => {
 const receiveMessage = (socket: Socket) => {
   socket.on("event:message_received", async ({ messageId }) => {
     try {
-      console.log("Message received:", messageId);
       const receiverId = socket.data.user.id;
 
       // Update message status in the database
@@ -100,8 +95,6 @@ const receiveMessage = (socket: Socket) => {
         where: { id: messageId },
         data: { status: "DELIVERED" },
       });
-
-      console.log(`Message ${messageId} delivered to user ${receiverId}`);
 
       // Optionally notify the sender about the message status update
       socket.to(receiverId).emit("event:message_status_update", {
