@@ -41,7 +41,7 @@ export const socketMiddleware = async (
   next: (err?: Error) => void,
 ) => {
   const cookies = socket.handshake.headers.cookie;
-  console.log(socket.handshake.headers);
+  console.log(socket.handshake);
   const token = cookies
     ?.split(";")
     .find((cookie) => cookie.trim().startsWith(`${cookieName}=`))

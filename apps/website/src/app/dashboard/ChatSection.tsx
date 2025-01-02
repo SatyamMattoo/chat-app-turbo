@@ -9,9 +9,9 @@ import {
 } from "@repo/ui/components/ui/avatar";
 import { Button } from "@repo/ui/components/ui/button";
 
-import { socket } from "~/src/utils/socket";
 import { ChatUser, Message, MessageType } from "~/src/types/types";
 import { fetchMessages } from "~/src/actions/friends";
+import { socket } from "~/src/utils/socketClient";
 
 type Props = {
   activeChat: ChatUser | null;
@@ -27,10 +27,7 @@ const ChatSection: React.FC<Props> = ({ activeChat, userId }) => {
     const fetchChatMessages = async () => {
       if (!activeChat) return;
       try {
-        const chatMessagesResponse = await fetchMessages(
-          userId,
-          activeChat.id,
-        );
+        const chatMessagesResponse = await fetchMessages(userId, activeChat.id);
 
         if (
           chatMessagesResponse.success &&
